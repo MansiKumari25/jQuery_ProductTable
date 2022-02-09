@@ -102,11 +102,15 @@ $(document).ready(function(){
         });
 
         $("#output").on("click", "a.delete", function(){
-            $($(this).parent()).parent().remove();
-            var pid=$(this).data("id");
-            console.log("Del"+pid);
-            deleteProduct(pid);
-            $("#success").css("display", "block").text("Product Deleted").fadeIn(2000).fadeOut(2000);
+            var text=prompt("Type yes to delete:");
+            if(text.toLowerCase()==="yes"){
+                $($(this).parent()).parent().remove();
+                var pid=$(this).data("id");
+                console.log("Del"+pid);
+                deleteProduct(pid);
+                $("#success").css("display", "block").text("Product Deleted").fadeIn(2000).fadeOut(2000);
+            }
+            
         });
 
 
