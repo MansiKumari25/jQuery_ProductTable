@@ -1,0 +1,67 @@
+*{
+    margin:0;
+    padding: 0;
+}
+
+.wrapper{
+    width:100%;
+    background-color: aliceblue;
+    padding: 5%;
+}
+
+.formdiv{
+    margin: auto;
+    width: 60%;
+    background-color: rgb(168, 164, 230);
+    font-size: 30px;
+    padding: 2%;
+    box-shadow: 3px 3px 4px black;
+    border-radius: 3px;
+}
+.inp{
+    margin: 2%;
+}
+
+form .inp{
+    width: 90%;
+}
+.inp label{
+    width: 25%;
+    display: inline-block;
+}
+.inp input{
+    width: 74%;
+    font-size: 30px;
+}
+.inp button{
+    width: 50%;
+    font-size: 30px;
+    margin:0 30%;
+    background-color: blueviolet;
+    border: 2px solid white;
+    padding: 1%;
+    color:white;
+    font-weight: 700;
+}
+
+#update{
+    display: none;
+}
+
+#output{
+    padding: 5%;
+}
+
+#output table{
+    background-color: rgb(173, 218, 236);
+    padding: 2%;
+    margin:auto;
+    font-size: 20px;
+}
+
+table th,td{
+    border-bottom: 2px solid rgb(59, 136, 167);
+    text-align: center;
+    width: 30%;
+}
+
