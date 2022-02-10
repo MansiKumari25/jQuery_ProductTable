@@ -65,3 +65,15 @@ table th,td{
     width: 30%;
 }
 
+
+.cancelerror{
+    float: right;
+    padding:5px 5px;
+}
+
+
+.cancelsuccess{
+    float: right;
+    padding:5px 5px;
+}
+

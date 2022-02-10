@@ -1,35 +1,41 @@
-
+//global array for products bject
 let arr=[];
-
 $(document).ready(function(){
+    //adding products
     $("#add").click(function(){
         var psku=$("#productsku").val();
         var pquant=$("#productquantity").val();
         var pname=$("#productname").val();
         var pprice=$("#productprice").val();
-        //console.log(pid+" "+pname+" "+pprice );
-
         if(checkData(psku, pname, pprice, pquant))
         {
-            checkDuplicacy(psku, pname, pprice, pquant);
+            checkDuplicacy(psku, pname, pprice, pquant)
             display();
-            //console.log("Hello");
         }
+    });  
+
+    $(".cancelerror").click(function(){
+        $("#msg").hide();
     });
 
+    $(".cancelsuccess").click(function(){
+        $("#success").hide();
+    });
+    
+    //check validity
     function checkData(psku, pname, pprice, pquant)
     {
         if(psku=="" || isNaN(psku) || psku==" " || pname=="" || pname==" " || !isNaN(pname) || pprice=="" || isNaN(pprice) || pquant=="" || isNaN(pquant))
         {
-            $("#msg").fadeIn(2000).fadeOut(2000);
+            $("#msg").show();
             return false;
         }
         else{
-            //console.log("Hello2");
             return true;
         }
     }
 
+    //checking duplicacy
     function checkDuplicacy(psku, pname, pprice, pquant){
         if(arr.length ===0 )
         {
@@ -41,7 +47,7 @@ $(document).ready(function(){
             {
                 if(arr[i].sku== psku)
                 {
-                    $("#msg").text("Duplicate SKU").fadeIn(2000).fadeOut(2000);
+                    $("#msg").show();
                     return;
                 }            
             }
@@ -57,19 +63,13 @@ $(document).ready(function(){
             "price": pprice,
             "quant": pquant
         });
-        $("#success").text("Product Added Successfully ").css("display", "block").fadeIn(2000).fadeOut(2000);
-         //console.log(arr);
-            
+        $("#success").show();
+        resetForm();
     }
 
     function display()
         {
             let result="";            
-            if(arr.length ===0 )
-            {
-             $("#output").html("<p>No values</p>");
-            }
-            else{                
                 for(let i=0; i<arr.length; i++)
                 {
                     result +=`<tr data-prod="${arr[i].sku}">
@@ -92,8 +92,6 @@ $(document).ready(function(){
                 </tr>
                 ${result}
                 </table>`);
-            }
-            //console.log(arr);
         }
 
         $("#output").on("click", "a.edit", function(){
@@ -108,53 +106,64 @@ $(document).ready(function(){
                 var pid=$(this).data("id");
                 console.log("Del"+pid);
                 deleteProduct(pid);
-                $("#success").css("display", "block").text("Product Deleted").fadeIn(2000).fadeOut(2000);
+                $("#success").show();
             }
             
         });
 
 
         function editProduct(id){
-            var product=getProduct(id);
+            var obj=getProduct(id);
+            var product=obj.arr;
+            var index=obj.index;
             $("#productsku").val(product.sku);
             $("#productname").val(product.name);
             $("#productprice").val(product.price);
             $("#productquantity").val(product.quant);
             $("#add").css("display", "none");
-            $("#update").css("display","inline-block");
+            $("#update").css("display","inline-block");  
             $(".inp").on("click", "#update", function(){
-                //console.log(id)
                 var ps=$("#productsku").val();
                 var pn=$("#productname").val();
                 var pp=$("#productprice").val();
                 var pq=$("#productquantity").val();
-                checkDuplicacy(ps, pn, pp, pq);
-                updateProduct(ps, pn, pp, pq);
-            });
+                checkDuplicacyAgain(ps, pn, pp, pq, index)
+                $("#success").show();         
+                resetForm();                
+            });                     
         }
 
         function getProduct(id)
         {
             for(let i=0; i<arr.length; i++)
-            {
-                
+            {                
                 if(arr[i].sku==id)
-                {
-                    console.log("get"+Object.keys(arr[i])+"val: "+Object.values(arr[i]));
-                    return arr[i];
+                {                    
+                    return {"arr": arr[i], "index": i};
                 }
                 
             }
         }
 
-        function updateProduct(product)
+        function checkDuplicacyAgain(ps, pn, pp, pq, index)
         {
-            
-            product.sku=$("#productsku").val();
-            product.name=$("#productname").val();
-            product.price=$("#productprice").val();
-            product.quant=$("#productquantity").val();
-    
+            for(var i=0; i<arr.length; i++)
+            {
+                if(arr[i].sku== ps &&  i!= index)
+                {
+                    $("#msg").show();
+                    return;
+                }            
+            }
+            updateProduct(ps, pn, pp, pq, index);                   
+        }
+
+        function updateProduct(ps, pn, pp, pq, index)
+        {
+            arr[index].sku=ps;
+            arr[index].name=pn;
+            arr[index].price=pp;
+            arr[index].quant=pq;
             display();
         }
 
@@ -166,12 +175,19 @@ $(document).ready(function(){
                 if(arr[i].sku==id)
                 {
                     arr.splice(i,1);
-                    //console.log("Removed"+ arr[i].splice(i,1));
                 }
-                //console.log(arr[i].sku);
             }
-            //console.log(arr[i]);
         }
+
+        function resetForm()
+        {
+            $("#productsku").val("");
+            $("#productname").val("");
+            $("#productprice").val("");
+            $("#productquantity").val("");
+        }
+
+        
                 
         
 
