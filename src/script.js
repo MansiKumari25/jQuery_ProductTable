@@ -92,6 +92,7 @@ $(document).ready(function(){
                 </tr>
                 ${result}
                 </table>`);
+               
         }
 
         $("#output").on("click", "a.edit", function(){
@@ -101,15 +102,12 @@ $(document).ready(function(){
 
         $("#output").on("click", "a.delete", function(){
             var text=prompt("Type yes to delete:");
-            if(text.toLowerCase()==="yes"){
-                
+            if(text.toLowerCase()==="yes"){                
                 var pid=$(this).data("id");
-                console.log("Del"+pid);
                 deleteProduct(pid);
                 $($(this).parent()).parent().remove();
                 $("#success").show();
-            }
-            
+            }            
         });
 
 
@@ -128,9 +126,7 @@ $(document).ready(function(){
                 var pn=$("#productname").val();
                 var pp=$("#productprice").val();
                 var pq=$("#productquantity").val();
-                checkDuplicacyAgain(ps, pn, pp, pq, index)
-                $("#success").show();         
-                resetForm();                
+                checkDuplicacyAgain(ps, pn, pp, pq, index);                          
             });                     
         }
 
@@ -141,8 +137,7 @@ $(document).ready(function(){
                 if(arr[i].sku==id)
                 {                    
                     return {"arr": arr[i], "index": i};
-                }
-                
+                }                
             }
         }
 
@@ -150,8 +145,9 @@ $(document).ready(function(){
         {
             for(var i=0; i<arr.length; i++)
             {
-                if(arr[i].sku== ps &&  i!= index)
+                if(arr[i].sku == ps &&  i!== index)
                 {
+                    console.log("Again");
                     $("#msg").show();
                     return;
                 }            
@@ -166,6 +162,10 @@ $(document).ready(function(){
             arr[index].price=pp;
             arr[index].quant=pq;
             display();
+            $("#success").show();  
+            $("#add").css("display", "inline-block");
+            $("#update").css("display","NONE"); 
+            
         }
 
 
